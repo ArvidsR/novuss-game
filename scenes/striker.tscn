@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3 uid="uid://ct5ntr4k0nlav"]
+
+[ext_resource type="Script" uid="uid://dywl6i8hk7g88" path="res://scenes/striker.gd" id="1_dfbab"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_28p07"]
+friction = 0.5
+bounce = 0.65
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_28p07"]
+radius = 21.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_uvn1s"]
+radius = 49.0102
+
+[node name="Puck" type="RigidBody2D"]
+z_index = 2
+mass = 4.5
+physics_material_override = SubResource("PhysicsMaterial_28p07")
+gravity_scale = 0.0
+continuous_cd = 2
+script = ExtResource("1_dfbab")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(0.031, 0.031)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_28p07")
+
+[node name="Pointer" type="Sprite2D" parent="."]
+position = Vector2(5, 37)
+scale = Vector2(0.11, 0.11)
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="pointer_circle" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_uvn1s")

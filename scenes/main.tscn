@@ -1,0 +1,696 @@
+[gd_scene load_steps=31 format=3 uid="uid://bu3e0r0ekkdco"]
+
+[ext_resource type="Script" uid="uid://gr3302tsi8n" path="res://scripts/main.gd" id="1_sugp2"]
+[ext_resource type="PackedScene" uid="uid://bccosopotyowe" path="res://scenes/piece_red.tscn" id="2_o6xl0"]
+[ext_resource type="PackedScene" uid="uid://beolpqweiljpk" path="res://scenes/table.tscn" id="3_tbgi4"]
+[ext_resource type="PackedScene" uid="uid://b0hfw2yj1oqu" path="res://scenes/piece_black.tscn" id="3_tipki"]
+[ext_resource type="PackedScene" uid="uid://ct5ntr4k0nlav" path="res://scenes/striker.tscn" id="4_85g3d"]
+[ext_resource type="PackedScene" uid="uid://d00f2qrqq0uto" path="res://scenes/cue.tscn" id="5_tbgi4"]
+[ext_resource type="Script" uid="uid://djuhve14o42ai" path="res://scripts/power_bar.gd" id="6_tefeu"]
+[ext_resource type="Script" uid="uid://c2enuwcpd57o2" path="res://scripts/hud.gd" id="7_hudsc"]
+[ext_resource type="Script" uid="uid://otelol8p2b3u" path="res://scripts/aim_line.gd" id="8_aim00"]
+[ext_resource type="Script" uid="uid://ca2uhif741823" path="res://scripts/pocket_fx.gd" id="9_pfx00"]
+[ext_resource type="Texture2D" uid="uid://c5ju7ojvqcuph" path="res://assets/red_piece.png" id="10_redtx"]
+[ext_resource type="Texture2D" uid="uid://nq6s0ehob1a3" path="res://assets/black_piece.png" id="11_blktx"]
+
+[sub_resource type="Gradient" id="Gradient_bg"]
+offsets = PackedFloat32Array(0, 0.5, 1)
+colors = PackedColorArray(0.1, 0.14, 0.26, 1, 0.04, 0.06, 0.12, 1, 0.008, 0.012, 0.025, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_bg"]
+gradient = SubResource("Gradient_bg")
+width = 1080
+height = 1920
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1.05, 1)
+
+[sub_resource type="Gradient" id="Gradient_vignette"]
+offsets = PackedFloat32Array(0, 0.55, 1)
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.55)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_vignette"]
+gradient = SubResource("Gradient_vignette")
+width = 1080
+height = 1920
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.95)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pb_bg"]
+bg_color = Color(0.04, 0.05, 0.1, 0.55)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 0.18)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pb_fill"]
+bg_color = Color(0.949, 0.27, 0.32, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+shadow_color = Color(0.949, 0.27, 0.32, 0.65)
+shadow_size = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel_top"]
+bg_color = Color(0.38, 0.43, 0.55, 0.95)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.6, 0.68, 0.82, 0.75)
+corner_radius_top_left = 26
+corner_radius_top_right = 26
+corner_radius_bottom_right = 26
+corner_radius_bottom_left = 26
+shadow_color = Color(0, 0, 0, 0.55)
+shadow_size = 24
+shadow_offset = Vector2(0, 6)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dark_pill"]
+bg_color = Color(0.1, 0.07, 0.02, 0.82)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.78, 0.2, 0.55)
+corner_radius_top_left = 19
+corner_radius_top_right = 19
+corner_radius_bottom_right = 19
+corner_radius_bottom_left = 19
+shadow_color = Color(1, 0.65, 0.1, 0.22)
+shadow_size = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dark_disc"]
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 0.95)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dark_hole"]
+bg_color = Color(1, 1, 1, 0.95)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_score_bg"]
+bg_color = Color(0.02, 0.03, 0.06, 0.55)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 0.1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel_bottom"]
+bg_color = Color(0.38, 0.43, 0.55, 0.95)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.6, 0.68, 0.82, 0.75)
+corner_radius_top_left = 26
+corner_radius_top_right = 26
+corner_radius_bottom_right = 26
+corner_radius_bottom_left = 26
+shadow_color = Color(0, 0, 0, 0.55)
+shadow_size = 24
+shadow_offset = Vector2(0, -6)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_overlay"]
+bg_color = Color(0.02, 0.03, 0.05, 0.88)
+
+[sub_resource type="Gradient" id="Gradient_winner_glow"]
+colors = PackedColorArray(0.949, 0.27, 0.32, 0.55, 0.949, 0.27, 0.32, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_winner_glow"]
+gradient = SubResource("Gradient_winner_glow")
+width = 900
+height = 500
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_hover"]
+bg_color = Color(0.26, 0.32, 0.46, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 3
+border_color = Color(0.6, 0.78, 1, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+shadow_color = Color(0.6, 0.78, 1, 0.45)
+shadow_size = 18
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_pressed"]
+bg_color = Color(0.1, 0.13, 0.2, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.32, 0.4, 0.55, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_normal"]
+bg_color = Color(0.14, 0.18, 0.27, 0.95)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 3
+border_color = Color(0.36, 0.46, 0.64, 0.9)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+shadow_color = Color(0, 0, 0, 0.4)
+shadow_size = 12
+shadow_offset = Vector2(0, 4)
+
+[node name="Main" type="Node"]
+script = ExtResource("1_sugp2")
+red_disc_scene = ExtResource("2_o6xl0")
+black_disc_scene = ExtResource("3_tipki")
+puck_scene = ExtResource("4_85g3d")
+
+[node name="Background" type="CanvasLayer" parent="."]
+layer = -10
+
+[node name="BG" type="TextureRect" parent="Background"]
+offset_right = 1080.0
+offset_bottom = 1920.0
+mouse_filter = 2
+texture = SubResource("GradientTexture2D_bg")
+
+[node name="Vignette" type="TextureRect" parent="Background"]
+offset_right = 1080.0
+offset_bottom = 1920.0
+mouse_filter = 2
+texture = SubResource("GradientTexture2D_vignette")
+
+[node name="Table" parent="." instance=ExtResource("3_tbgi4")]
+
+[node name="AimLine" type="Node2D" parent="."]
+z_index = 1
+script = ExtResource("8_aim00")
+
+[node name="PocketFX" type="Node2D" parent="."]
+z_index = 3
+script = ExtResource("9_pfx00")
+
+[node name="Cue" parent="." instance=ExtResource("5_tbgi4")]
+
+[node name="PowerBar" type="ProgressBar" parent="."]
+z_index = 1
+offset_left = 244.0
+offset_top = 758.0
+offset_right = 359.0
+offset_bottom = 781.0
+theme_override_styles/background = SubResource("StyleBoxFlat_pb_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_pb_fill")
+show_percentage = false
+script = ExtResource("6_tefeu")
+
+[node name="HUD" type="CanvasLayer" parent="."]
+script = ExtResource("7_hudsc")
+
+[node name="FoulFlash" type="ColorRect" parent="HUD"]
+offset_right = 1080.0
+offset_bottom = 1920.0
+mouse_filter = 2
+color = Color(1, 0.18, 0.22, 0)
+
+[node name="TopPanel" type="Panel" parent="HUD"]
+offset_left = 30.0
+offset_top = 36.0
+offset_right = 1050.0
+offset_bottom = 196.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel_top")
+
+[node name="TopAccent" type="ColorRect" parent="HUD/TopPanel"]
+modulate = Color(1, 1, 1, 0.35)
+layout_mode = 0
+offset_left = 14.0
+offset_top = 8.0
+offset_right = 20.0
+offset_bottom = 152.0
+mouse_filter = 2
+color = Color(0.85, 0.86, 0.94, 1)
+
+[node name="ColorBadge" type="TextureRect" parent="HUD/TopPanel"]
+layout_mode = 0
+offset_left = 28.0
+offset_top = 16.0
+offset_right = 108.0
+offset_bottom = 96.0
+mouse_filter = 2
+texture = ExtResource("11_blktx")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="NameLabel" type="Label" parent="HUD/TopPanel"]
+layout_mode = 0
+offset_left = 118.0
+offset_top = 14.0
+offset_right = 630.0
+offset_bottom = 50.0
+theme_override_colors/font_color = Color(1, 1, 1, 0.9)
+theme_override_colors/font_outline_color = Color(0.1, 0.13, 0.22, 0.65)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 26
+text = "PLAYER 2"
+
+[node name="SubLabel" type="Label" parent="HUD/TopPanel"]
+layout_mode = 0
+offset_left = 118.0
+offset_top = 50.0
+offset_right = 630.0
+offset_bottom = 120.0
+theme_override_colors/font_color = Color(0.85, 0.86, 0.94, 1)
+theme_override_font_sizes/font_size = 52
+text = "BLACK"
+
+[node name="DarkPill" type="Panel" parent="HUD/TopPanel"]
+visible = false
+layout_mode = 0
+offset_left = 118.0
+offset_top = 124.0
+offset_right = 420.0
+offset_bottom = 152.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_dark_pill")
+
+[node name="DarkIcon" type="Panel" parent="HUD/TopPanel/DarkPill"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 5.0
+offset_right = 26.0
+offset_bottom = 23.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_dark_disc")
+
+[node name="Hole" type="Panel" parent="HUD/TopPanel/DarkPill/DarkIcon"]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 7.0
+offset_right = 13.0
+offset_bottom = 13.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_dark_hole")
+
+[node name="DarkText" type="Label" parent="HUD/TopPanel/DarkPill"]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 3.0
+offset_right = 192.0
+offset_bottom = 25.0
+theme_override_colors/font_color = Color(0.92, 0.78, 0.32, 0.9)
+theme_override_font_sizes/font_size = 15
+text = "DARK DISC"
+vertical_alignment = 1
+
+[node name="DarkCount" type="Label" parent="HUD/TopPanel/DarkPill"]
+layout_mode = 0
+offset_left = 198.0
+offset_right = 252.0
+offset_bottom = 28.0
+theme_override_colors/font_color = Color(1, 0.88, 0.32, 1)
+theme_override_colors/font_outline_color = Color(0.1, 0.07, 0.02, 0.9)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 22
+text = "0"
+vertical_alignment = 1
+
+[node name="ScoreBg" type="Panel" parent="HUD/TopPanel"]
+layout_mode = 0
+offset_left = 640.0
+offset_top = 4.0
+offset_right = 1010.0
+offset_bottom = 162.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_score_bg")
+
+[node name="Score" type="Label" parent="HUD/TopPanel"]
+layout_mode = 0
+offset_left = 640.0
+offset_top = 14.0
+offset_right = 1010.0
+offset_bottom = 46.0
+theme_override_colors/font_color = Color(1, 1, 1, 0.72)
+theme_override_constants/outline_size = 0
+theme_override_font_sizes/font_size = 26
+text = "SETS WON"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RemainLabel" type="Label" parent="HUD/TopPanel"]
+visible = false
+layout_mode = 0
+offset_left = 828.0
+offset_top = 120.0
+offset_right = 1002.0
+offset_bottom = 142.0
+theme_override_colors/font_color = Color(1, 1, 1, 0.55)
+theme_override_font_sizes/font_size = 13
+text = "SETS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DiscCount" type="Label" parent="HUD/TopPanel"]
+layout_mode = 0
+offset_left = 640.0
+offset_top = 112.0
+offset_right = 1010.0
+offset_bottom = 184.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.85, 0.86, 0.94, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 64
+text = "8"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PiecesLabel" type="Label" parent="HUD/TopPanel"]
+layout_mode = 0
+offset_left = 640.0
+offset_top = 94.0
+offset_right = 1010.0
+offset_bottom = 116.0
+theme_override_colors/font_color = Color(1, 1, 1, 0.65)
+theme_override_font_sizes/font_size = 20
+text = "DISCS LEFT"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Glow" type="ColorRect" parent="HUD/TopPanel"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 6.0
+offset_right = 22.0
+offset_bottom = 154.0
+mouse_filter = 2
+color = Color(0.85, 0.86, 0.94, 1)
+
+[node name="BottomPanel" type="Panel" parent="HUD"]
+offset_left = 30.0
+offset_top = 1726.0
+offset_right = 1050.0
+offset_bottom = 1886.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel_bottom")
+
+[node name="TopAccent" type="ColorRect" parent="HUD/BottomPanel"]
+modulate = Color(1, 1, 1, 0.35)
+layout_mode = 0
+offset_left = 14.0
+offset_top = 8.0
+offset_right = 20.0
+offset_bottom = 152.0
+mouse_filter = 2
+color = Color(0.949, 0.27, 0.32, 1)
+
+[node name="ColorBadge" type="TextureRect" parent="HUD/BottomPanel"]
+layout_mode = 0
+offset_left = 28.0
+offset_top = 16.0
+offset_right = 108.0
+offset_bottom = 96.0
+mouse_filter = 2
+texture = ExtResource("10_redtx")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="NameLabel" type="Label" parent="HUD/BottomPanel"]
+layout_mode = 0
+offset_left = 118.0
+offset_top = 14.0
+offset_right = 630.0
+offset_bottom = 50.0
+theme_override_colors/font_color = Color(1, 1, 1, 0.9)
+theme_override_colors/font_outline_color = Color(0.1, 0.13, 0.22, 0.65)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 26
+text = "PLAYER 1"
+
+[node name="SubLabel" type="Label" parent="HUD/BottomPanel"]
+layout_mode = 0
+offset_left = 118.0
+offset_top = 50.0
+offset_right = 630.0
+offset_bottom = 120.0
+theme_override_colors/font_color = Color(0.949, 0.27, 0.32, 1)
+theme_override_font_sizes/font_size = 52
+text = "RED"
+
+[node name="DarkPill" type="Panel" parent="HUD/BottomPanel"]
+visible = false
+layout_mode = 0
+offset_left = 118.0
+offset_top = 124.0
+offset_right = 420.0
+offset_bottom = 152.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_dark_pill")
+
+[node name="DarkIcon" type="Panel" parent="HUD/BottomPanel/DarkPill"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 5.0
+offset_right = 26.0
+offset_bottom = 23.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_dark_disc")
+
+[node name="Hole" type="Panel" parent="HUD/BottomPanel/DarkPill/DarkIcon"]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 7.0
+offset_right = 13.0
+offset_bottom = 13.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_dark_hole")
+
+[node name="DarkText" type="Label" parent="HUD/BottomPanel/DarkPill"]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 3.0
+offset_right = 192.0
+offset_bottom = 25.0
+theme_override_colors/font_color = Color(0.92, 0.78, 0.32, 0.9)
+theme_override_font_sizes/font_size = 15
+text = "DARK DISC"
+vertical_alignment = 1
+
+[node name="DarkCount" type="Label" parent="HUD/BottomPanel/DarkPill"]
+layout_mode = 0
+offset_left = 198.0
+offset_right = 252.0
+offset_bottom = 28.0
+theme_override_colors/font_color = Color(1, 0.88, 0.32, 1)
+theme_override_colors/font_outline_color = Color(0.1, 0.07, 0.02, 0.9)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 22
+text = "0"
+vertical_alignment = 1
+
+[node name="ScoreBg" type="Panel" parent="HUD/BottomPanel"]
+layout_mode = 0
+offset_left = 640.0
+offset_top = 4.0
+offset_right = 1010.0
+offset_bottom = 162.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_score_bg")
+
+[node name="Score" type="Label" parent="HUD/BottomPanel"]
+layout_mode = 0
+offset_left = 640.0
+offset_top = 14.0
+offset_right = 1010.0
+offset_bottom = 46.0
+theme_override_colors/font_color = Color(1, 1, 1, 0.72)
+theme_override_constants/outline_size = 0
+theme_override_font_sizes/font_size = 26
+text = "SETS WON"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RemainLabel" type="Label" parent="HUD/BottomPanel"]
+visible = false
+layout_mode = 0
+offset_left = 828.0
+offset_top = 120.0
+offset_right = 1002.0
+offset_bottom = 142.0
+theme_override_colors/font_color = Color(1, 1, 1, 0.55)
+theme_override_font_sizes/font_size = 13
+text = "SETS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DiscCount" type="Label" parent="HUD/BottomPanel"]
+layout_mode = 0
+offset_left = 640.0
+offset_top = 112.0
+offset_right = 1010.0
+offset_bottom = 184.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.95, 0.27, 0.32, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 64
+text = "8"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PiecesLabel" type="Label" parent="HUD/BottomPanel"]
+layout_mode = 0
+offset_left = 640.0
+offset_top = 94.0
+offset_right = 1010.0
+offset_bottom = 116.0
+theme_override_colors/font_color = Color(1, 1, 1, 0.65)
+theme_override_font_sizes/font_size = 20
+text = "DISCS LEFT"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Glow" type="ColorRect" parent="HUD/BottomPanel"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 6.0
+offset_right = 22.0
+offset_bottom = 154.0
+mouse_filter = 2
+color = Color(0.949, 0.27, 0.32, 1)
+
+[node name="FoulLabel" type="Label" parent="HUD"]
+offset_top = 880.0
+offset_right = 1080.0
+offset_bottom = 1000.0
+theme_override_colors/font_color = Color(1, 0.22, 0.28, 1)
+theme_override_colors/font_outline_color = Color(0.3, 0.02, 0.04, 1)
+theme_override_constants/outline_size = 12
+theme_override_font_sizes/font_size = 130
+text = "FOUL"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="WinnerOverlay" type="Control" parent="HUD"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Dim" type="Panel" parent="HUD/WinnerOverlay"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_overlay")
+
+[node name="Glow" type="TextureRect" parent="HUD/WinnerOverlay"]
+layout_mode = 0
+offset_left = 90.0
+offset_top = 600.0
+offset_right = 990.0
+offset_bottom = 1100.0
+mouse_filter = 2
+texture = SubResource("GradientTexture2D_winner_glow")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Burst" type="CPUParticles2D" parent="HUD/WinnerOverlay"]
+position = Vector2(540, 880)
+emitting = false
+amount = 80
+lifetime = 1.6
+one_shot = true
+explosiveness = 0.95
+direction = Vector2(0, -1)
+spread = 180.0
+gravity = Vector2(0, 280)
+initial_velocity_min = 350.0
+initial_velocity_max = 720.0
+scale_amount_min = 2.5
+scale_amount_max = 5.5
+color = Color(1, 0.85, 0.4, 1)
+
+[node name="Center" type="VBoxContainer" parent="HUD/WinnerOverlay"]
+layout_mode = 0
+offset_left = 90.0
+offset_top = 700.0
+offset_right = 990.0
+offset_bottom = 1220.0
+theme_override_constants/separation = 28
+alignment = 1
+
+[node name="WinnerDisc" type="TextureRect" parent="HUD/WinnerOverlay/Center"]
+custom_minimum_size = Vector2(0, 130)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("10_redtx")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Title" type="Label" parent="HUD/WinnerOverlay/Center"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.949, 0.27, 0.32, 1)
+theme_override_colors/font_outline_color = Color(0.18, 0.02, 0.04, 1)
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 100
+text = "PLAYER 1 WINS"
+horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="HUD/WinnerOverlay/Center"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.65, 0.7, 0.82, 1)
+theme_override_font_sizes/font_size = 32
+text = "tap to play again"
+horizontal_alignment = 1
+
+[node name="RestartButton" type="Button" parent="HUD/WinnerOverlay/Center"]
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.97, 1, 1)
+theme_override_font_sizes/font_size = 46
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_hover")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+text = "PLAY AGAIN"
+
+[node name="MenuButton" type="Button" parent="HUD/WinnerOverlay/Center"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.62, 0.7, 0.85, 1)
+theme_override_font_sizes/font_size = 38
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_hover")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+text = "MAIN MENU"
+
+[connection signal="shoot" from="Cue" to="." method="_on_cue_shoot"]

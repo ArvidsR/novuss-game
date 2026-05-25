@@ -1,0 +1,48 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="Novuss"
+run/main_scene="res://scenes/menu.tscn"
+config/features=PackedStringArray("4.4", "Mobile")
+
+[autoload]
+
+GameSettings="*res://scripts/game_settings.gd"
+
+[display]
+
+window/size/viewport_width=1080
+window/size/viewport_height=1920
+window/size/mode=3
+window/stretch/mode="viewport"
+
+[input]
+
+ui_accept={
+"deadzone": 0.5,
+"events": []
+}
+
+[physics]
+
+common/physics_ticks_per_second=400
+2d/default_gravity_vector=Vector2(0, 0)
+2d/default_linear_damp=2.2
+2d/quality/use_debanding=false
+2d/quality/use_taa=false
+2d/quality/msaa_2d=0
+2d/quality/screen_space_aa=0
+2d/main_scene="uid://bu3e0r0ekkdco"
+
+[rendering]
+
+renderer/rendering_method="mobile"

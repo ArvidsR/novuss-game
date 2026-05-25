@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://b0hfw2yj1oqu"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_tvnf0"]
+friction = 0.5
+bounce = 0.75
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tvnf0"]
+radius = 16.0
+
+[node name="black_disc" type="RigidBody2D" groups=["all_black_discs"]]
+mass = 1.0
+gravity_scale = 0.0
+physics_material_override = SubResource("PhysicsMaterial_tvnf0")
+continuous_cd = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(0.021, 0.021)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_tvnf0")

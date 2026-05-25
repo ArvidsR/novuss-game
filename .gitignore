@@ -1,0 +1,7 @@
+/android/
+.import/
+.godot/
+.mono/
+.tmp/
+export_presets.cfg
+
